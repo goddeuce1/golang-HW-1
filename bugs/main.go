@@ -11,9 +11,9 @@ func ExistCounter() int {
 	enabled := map[int]bool{
 		1: false,
 		2: true,
-                3: true,
+		3: true,
 		4: false,
-                5: true,
+		5: true,
 		6: true,
 	}
 	totalExist := 0

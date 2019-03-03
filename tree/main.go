@@ -3,58 +3,58 @@ package main
 import (
 	"fmt"
 	"io"
-	"os"
 	"io/ioutil"
-        "strconv"
+	"os"
+	"strconv"
 )
 
 func getCurrentDirs(path string) []os.FileInfo {
-        items, _ := ioutil.ReadDir(path)
-        result := make([]os.FileInfo, 0)
-        for _, singleItem := range items {
-                if singleItem.IsDir() {
-                        result = append(result, singleItem)
-                }
-        }
-        return result
+	items, _ := ioutil.ReadDir(path)
+	result := make([]os.FileInfo, 0)
+	for _, singleItem := range items {
+		if singleItem.IsDir() {
+			result = append(result, singleItem)
+		}
+	}
+	return result
 }
 
 func getFileSize(path string) string {
-        file, _ := os.Stat(path)
-        if file.Size() == 0 {
-                return " (empty)"
-        }
-        size := strconv.Itoa(int(file.Size()))
-        return " (" + size + "b)"
+	file, _ := os.Stat(path)
+	if file.Size() == 0 {
+		return " (empty)"
+	}
+	size := strconv.Itoa(int(file.Size()))
+	return " (" + size + "b)"
 }
 
 func dirAnother(out io.Writer, path string, withFiles bool, tabsString string) error {
-        container := getCurrentDirs(path)
-        if withFiles {
-                container, _ = ioutil.ReadDir(path)
-        }
-        for index, singleItem := range container {
-                prefixChar := ""
-                tabsStringAnother := tabsString
-                if index == len(container) - 1 {
-                        prefixChar = "└───"
-                        tabsStringAnother += "\t"
-                } else {
-                        prefixChar = "├───"
-                        tabsStringAnother += "│\t"
-                }
-                resultString := singleItem.Name()
-                if !singleItem.IsDir() {
-                        resultString += getFileSize(path + "/" + singleItem.Name())
-                }
-                fmt.Fprintln(out, tabsString + prefixChar + resultString)
-                dirAnother(out, path + "/" + singleItem.Name(), withFiles, tabsStringAnother)
-        }
-        return nil
+	container := getCurrentDirs(path)
+	if withFiles {
+		container, _ = ioutil.ReadDir(path)
+	}
+	for index, singleItem := range container {
+		prefixChar := ""
+		tabsStringAnother := tabsString
+		if index == len(container)-1 {
+			prefixChar = "└───"
+			tabsStringAnother += "\t"
+		} else {
+			prefixChar = "├───"
+			tabsStringAnother += "│\t"
+		}
+		resultString := singleItem.Name()
+		if !singleItem.IsDir() {
+			resultString += getFileSize(path + "/" + singleItem.Name())
+		}
+		fmt.Fprintln(out, tabsString+prefixChar+resultString)
+		dirAnother(out, path+"/"+singleItem.Name(), withFiles, tabsStringAnother)
+	}
+	return nil
 }
 
 func dirTree(out io.Writer, path string, withFiles bool) error {
-        dirAnother(out, path, withFiles, "")
+	dirAnother(out, path, withFiles, "")
 	return nil
 }
 
