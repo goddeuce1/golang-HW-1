@@ -5,7 +5,7 @@ import (
 	"bufio"
 	"strconv"
 	"strings"
-    "math"
+        "math"
 )
 
 type myStack struct {
@@ -34,32 +34,32 @@ func Calculate(input string) float64 {
 	for i := 0; i < len(parsedString); i++ {
 		switch parsedString[i] {
 			case "+" :
-				if len(stack.data) > 1 {
-	                stack.push(stack.pop() + stack.pop())
-	            } else {
-	                return math.MaxFloat32;
-	            }
+                                if len(stack.data) > 1 {
+                                        stack.push(stack.pop() + stack.pop())
+                                } else {
+        	                        return math.MaxFloat32
+                                }
 			case "-" :
-				if len(stack.data) > 1 {
-	                stack.push(-stack.pop() + stack.pop())
-	            } else {
-	                return math.MaxFloat32;
-	            }
+        			if len(stack.data) > 1 {
+                                        stack.push(-stack.pop() + stack.pop())
+        	                } else {
+                                        return math.MaxFloat32
+                                }
 			case "*" :
-				if len(stack.data) > 1 {
-	                stack.push(stack.pop() * stack.pop())
-	            } else {
-	                return math.MaxFloat32;
-	            }
+                                if len(stack.data) > 1 {
+                                        stack.push(stack.pop() * stack.pop())
+                                } else {
+        	                        return math.MaxFloat32
+                                }
 			case "/" :
-				if len(stack.data) > 1 {
-	                stack.push(( 1 / stack.pop() ) * stack.pop())
-	            } else {
-	                return math.MaxFloat32;
-	            }
+        			if len(stack.data) > 1 {
+                                        stack.push(( 1 / stack.pop() ) * stack.pop())
+        	                } else {
+                                        return math.MaxFloat32
+        	                }
 			default :
-				value, _ := strconv.ParseFloat(parsedString[i], 64)
-				stack.push(value)
+        			value, _ := strconv.ParseFloat(parsedString[i], 64)
+        			stack.push(value)
 		}
 	}
     return stack.pop()
@@ -69,5 +69,5 @@ func Calculate(input string) float64 {
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 	slice, _ := reader.ReadString('\n')
-    Calculate(slice)
+        Calculate(slice)
 }
