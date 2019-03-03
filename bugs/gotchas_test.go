@@ -48,7 +48,6 @@ func TestMergeSlices(t *testing.T) {
 }
 
 func TestGetMapValuesSortedByKey(t *testing.T) {
-
 	var cases = []struct {
 		expected []string
 		input    map[int]string
